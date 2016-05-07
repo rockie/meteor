@@ -756,9 +756,8 @@ Fiber(function () {
   var appDir = EnvSwitch.findAppDir();
   if (appDir) {
     appDir = files.pathResolve(appDir);
-    EnvSwitch.checkAndFixMeteorEnv(appDir);
-  } else {
-    throw "OMG";
+    EnvSwitch.checkAndFixMeteorEnv(appDir);    
+    EnvSwitch.runBeforeCommands({ appDir, args: rawArgs, options: rawOptions });
   }
 
   require('../tool-env/isopackets.js').ensureIsopacketsLoadable();
