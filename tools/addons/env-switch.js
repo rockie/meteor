@@ -88,11 +88,27 @@ exports.checkAndFixMeteorEnv = function (appDir) {
   }
 };
 
-exports.addOnBeforeRun = function (options) {
-  const targetEnv = process.env.NODE_ENV;
-  const appDir = options.projectContext.projectDir;
+exports.runBeforeCommands = function (options) {
+  const appDir = options.appDir;
 
-  runLog.log("The app will be run in '"  + targetEnv + "' environment.\n");
+  let targetEnv = 'development';
+  if (_.isEmpty(options.args) || options.args[0] === 'run') {
+    if (!_.isEmpty(options.options['--production'])) {
+      targetEnv = 'production';
+    }
+  } else if (options.args[0] === 'build') {
+    if (_.isEmpty(options.options['--debug'])) {
+      targetEnv = 'production';
+    }
+  } else if (options.args[0] === 'test') {
+    if (!_.isEmpty(options.options['--production'])) {
+      targetEnv = 'production';
+    } else {
+      targetEnv = 'test';
+    }
+  }
+
+  console.log("The app will be run in '"  + targetEnv + "' environment.");
 
   let meteorDir = files.pathJoin(appDir, '.meteor');
   let envFile = files.pathJoin(appDir, '.meteor', 'environment');
