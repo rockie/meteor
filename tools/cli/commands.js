@@ -282,7 +282,7 @@ main.registerCommand(_.extend(
 
 function doRunCommand(options) {
   Console.setVerbose(!!options.verbose);
-
+  
   // Additional args are interpreted as run targets
   const runTargets = parseRunTargets(options.args);
 
