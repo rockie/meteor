@@ -750,9 +750,15 @@ Fiber(function () {
   // application or package. Determine any additional directories to
   // search for packages.
 
-  var appDir = files.findAppDir();
+  // KKK Run env-switch add-on
+  const EnvSwitch = require('../addons/env-switch.js');
+
+  var appDir = EnvSwitch.findAppDir();
   if (appDir) {
     appDir = files.pathResolve(appDir);
+    EnvSwitch.checkAndFixMeteorEnv(appDir);
+  } else {
+    throw "OMG";
   }
 
   require('../tool-env/isopackets.js').ensureIsopacketsLoadable();

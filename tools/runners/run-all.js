@@ -313,6 +313,10 @@ exports.run = function (options) {
     process.env.NODE_ENV = "development";
   }
 
+  // KKK Run env-switch add-on
+  const EnvSwitch = require('../addons/env-switch.js');
+  EnvSwitch.addOnBeforeRun(runOptions);
+
   var runner = new Runner(runOptions);
   runner.start();
   var result = promise.await();
